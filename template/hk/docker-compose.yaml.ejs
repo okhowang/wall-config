@@ -1,0 +1,46 @@
+version: "3"
+services:
+    '12345-tcp':
+        image: alpine/socat
+        ports:
+        #normal
+        - "12345:12345/tcp"
+        #rui
+        - "12347:12345/tcp"
+        #h
+<%-_.range(config.chachaPortRange[0], config.chachaPortRange[1] + 1).map(port => `        - "${port}:12345/tcp"`).join("\n")%>
+        restart: always
+        command: TCP-LISTEN:12345,fork TCP:150.95.142.223:8388
+    '12345-udp':
+        image: alpine/socat
+        ports:
+        #normal
+        - "12345:12345/udp"
+        #rui
+        - "12347:12345/udp"
+        #h
+<%-_.range(config.chachaPortRange[0], config.chachaPortRange[1] + 1).map(port => `        - "${port}:12345/udp"`).join("\n")%>
+        restart: always
+        command: UDP4-RECVFROM:12345,fork UDP4-SENDTO:150.95.142.223:8388
+    '10000-tcp':
+        image: alpine/socat
+        ports:
+        #normal
+        - "10000:12345/tcp"
+        #rui
+        - "10001:12345/tcp"
+        #h
+<%-_.range(config.aesPortRange[0], config.aesPortRange[1] + 1).map(port => `        - "${port}:12345/tcp"`).join("\n")%>
+        restart: always
+        command: TCP-LISTEN:12345,fork TCP:150.95.142.223:8389
+    '10000-udp':
+        image: alpine/socat
+        ports:
+        #normal
+        - "10000:12345/udp"
+        #rui
+        - "10001:12345/udp"
+        #h
+<%-_.range(config.aesPortRange[0], config.aesPortRange[1] + 1).map(port => `        - "${port}:12345/udp"`).join("\n")%>
+        restart: always
+        command: UDP4-RECVFROM:12345,fork UDP4-SENDTO:150.95.142.223:8389

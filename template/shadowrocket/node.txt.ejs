@@ -1,0 +1,10 @@
+<%-btoa(config.hkHost.flatMap(function (host) {
+    return _.concat(
+            ..._.range(config.aesPortRange[0], config.aesPortRange[1] + 1).map(function (port) {
+                return 'ss://' + btoa(`aes-256-gcm:${config.aesPassword}@${host}:${port}`)
+            }),
+            ..._.range(config.chachaPortRange[0], config.chachaPortRange[1] + 1).map(function (port) {
+                return 'ss://' + btoa(`xchacha20-ietf-poly1305:${config.chachaPassword}@${host}:${port}`)
+            }),
+    )
+}).join("\n")) %>
