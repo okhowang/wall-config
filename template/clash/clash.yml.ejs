@@ -48,28 +48,40 @@ Proxy:
   port: 8388
   password: <%-config.chachaPassword%>
   cipher: xchacha20-ietf-poly1305
+- name: Shadowsocks-aes-jp
+  type: ss
+  server: <%-config.jpHost%>
+  port: 8389
+  password: <%-config.aesPassword%>
+  cipher: aes-256-gcm
+- name: Shadowsocks-chacha-jp
+  type: ss
+  server: <%-config.jpHost%>
+  port: 8388
+  password: <%-config.chachaPassword%>
+  cipher: xchacha20-ietf-poly1305
 
-<% for (var i = 0; i < config.hkHost.length; i++) {%>
-<% for (var j = config.aesPortRange[0]; j <= config.aesPortRange[1]; j++) { %>
+<% for (var i = 0; i < config.hkHost.length; i++) {-%>
+<% for (var j = config.aesPortRange[0]; j <= config.aesPortRange[1]; j++) { -%>
 - name: Shadowsocks-aes-hk<%-i%>-<%-j%>
   type: ss
   server: <%-config.hkHost[i]%>
   port: <%-j%>
   password: <%-config.aesPassword%>
   cipher: aes-256-gcm
-<% } %>
-<% } %>
+<% } -%>
+<% } -%>
 
-<% for (var i = 0; i < config.hkHost.length; i++) {%>
-<% for (var j = config.chachaPortRange[0]; j <= config.chachaPortRange[1]; j++) { %>
+<% for (var i = 0; i < config.hkHost.length; i++) {-%>
+<% for (var j = config.chachaPortRange[0]; j <= config.chachaPortRange[1]; j++) { -%>
 - name: Shadowsocks-chacha-hk<%-i%>-<%-j%>
   type: ss
   server: <%-config.hkHost[i]%>
   port: <%-j%>
   password: <%-config.chachaPassword%>
   cipher: xchacha20-ietf-poly1305
-<% } %>
-<% } %>
+<% } -%>
+<% } -%>
 
 Proxy Group:
 - name: Proxy
@@ -79,6 +91,7 @@ Proxy Group:
   - ProxyGZ
   - ProxyHK-chacha
   - ProxyHK-aes
+  - ProxyJP
 - name: ProxyGZ
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -86,6 +99,13 @@ Proxy Group:
   proxies:
   - Shadowsocks-aes-gz
   - Shadowsocks-chacha-gz
+- name: ProxyJP
+  type: url-test
+  url: http://www.gstatic.com/generate_204
+  interval: 300
+  proxies:
+    - Shadowsocks-aes-jp
+    - Shadowsocks-chacha-jp
 - name: ProxyHK
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -98,21 +118,21 @@ Proxy Group:
   url: http://www.gstatic.com/generate_204
   interval: 60
   proxies:
-<% for (var i = 0; i < config.hkHost.length; i++) {%>
-<% for (var j = config.aesPortRange[0]; j <= config.aesPortRange[1]; j++) { %>
+<% for (var i = 0; i < config.hkHost.length; i++) {-%>
+<% for (var j = config.aesPortRange[0]; j <= config.aesPortRange[1]; j++) { -%>
   - Shadowsocks-aes-hk<%-i%>-<%-j%>
-<% } %>
-<% } %>
+<% } -%>
+<% } -%>
 - name: ProxyHK-chacha
   type: url-test
   url: http://www.gstatic.com/generate_204
   interval: 60
   proxies:
-<% for (var i = 0; i < config.hkHost.length; i++) {%>
-<% for (var j = config.chachaPortRange[0]; j <= config.chachaPortRange[1]; j++) { %>
+<% for (var i = 0; i < config.hkHost.length; i++) {-%>
+<% for (var j = config.chachaPortRange[0]; j <= config.chachaPortRange[1]; j++) { -%>
   - Shadowsocks-chacha-hk<%-i%>-<%-j%>
-<% } %>
-<% } %>
+<% } -%>
+<% } -%>
 Rule:
 - IP-CIDR,10.0.0.0/8,DIRECT
 - IP-CIDR,172.16.0.0/12,DIRECT
