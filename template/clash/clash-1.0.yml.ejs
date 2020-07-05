@@ -116,7 +116,7 @@ proxy-groups:
 - name: ProxyHK-aes
   type: url-test
   url: http://www.gstatic.com/generate_204
-  interval: 60
+  interval: 300
   proxies:
 <% for (var i = 0; i < config.hkHost.length; i++) {-%>
 <% for (var j = config.aesPortRange[0]; j <= config.aesPortRange[1]; j++) { -%>
@@ -126,7 +126,7 @@ proxy-groups:
 - name: ProxyHK-chacha
   type: url-test
   url: http://www.gstatic.com/generate_204
-  interval: 60
+  interval: 300
   proxies:
 <% for (var i = 0; i < config.hkHost.length; i++) {-%>
 <% for (var j = config.chachaPortRange[0]; j <= config.chachaPortRange[1]; j++) { -%>
