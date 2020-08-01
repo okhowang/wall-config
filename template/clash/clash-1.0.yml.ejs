@@ -70,11 +70,27 @@ proxies:
   password: <%-config.aesPassword%>
   cipher: aes-256-gcm
 <% } -%>
+<% for (var j = config.aesHKPortRange[0]; j <= config.aesHKPortRange[1]; j++) { -%>
+- name: Shadowsocks-aes-hk-local-<%-i%>-<%-j%>
+  type: ss
+  server: <%-config.hkHost[i]%>
+  port: <%-j%>
+  password: <%-config.aesPassword%>
+  cipher: aes-256-gcm
+<% } -%>
 <% } -%>
 
 <% for (var i = 0; i < config.hkHost.length; i++) {-%>
 <% for (var j = config.chachaPortRange[0]; j <= config.chachaPortRange[1]; j++) { -%>
 - name: Shadowsocks-chacha-hk<%-i%>-<%-j%>
+  type: ss
+  server: <%-config.hkHost[i]%>
+  port: <%-j%>
+  password: <%-config.chachaPassword%>
+  cipher: xchacha20-ietf-poly1305
+<% } -%>
+<% for (var j = config.chachaHKPortRange[0]; j <= config.chachaHKPortRange[1]; j++) { -%>
+- name: Shadowsocks-chacha-hk-local-<%-i%>-<%-j%>
   type: ss
   server: <%-config.hkHost[i]%>
   port: <%-j%>
@@ -91,6 +107,8 @@ proxy-groups:
   - ProxyGZ
   - ProxyHK-chacha
   - ProxyHK-aes
+  - ProxyHK-chacha-local
+  - ProxyHK-aes-local
   - ProxyJP
 - name: ProxyGZ
   type: url-test
@@ -123,6 +141,16 @@ proxy-groups:
   - Shadowsocks-aes-hk<%-i%>-<%-j%>
 <% } -%>
 <% } -%>
+- name: ProxyHK-aes-local
+  type: url-test
+  url: http://www.gstatic.com/generate_204
+  interval: 300
+  proxies:
+<% for (var i = 0; i < config.hkHost.length; i++) {-%>
+<% for (var j = config.aesHKPortRange[0]; j <= config.aesHKPortRange[1]; j++) { -%>
+    - Shadowsocks-aes-hk-local-<%-i%>-<%-j%>
+<% } -%>
+<% } -%>
 - name: ProxyHK-chacha
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -133,7 +161,17 @@ proxy-groups:
   - Shadowsocks-chacha-hk<%-i%>-<%-j%>
 <% } -%>
 <% } -%>
-rules:
+- name: ProxyHK-chacha-local
+  type: url-test
+  url: http://www.gstatic.com/generate_204
+  interval: 300
+  proxies:
+<% for (var i = 0; i < config.hkHost.length; i++) {-%>
+<% for (var j = config.chachaHKPortRange[0]; j <= config.chachaHKPortRange[1]; j++) { -%>
+    - Shadowsocks-chacha-hk-local-<%-i%>-<%-j%>
+<% } -%>
+<% } -%>
+`rules:
 - IP-CIDR,10.0.0.0/8,DIRECT
 - IP-CIDR,172.16.0.0/12,DIRECT
 - IP-CIDR,192.168.0.0/16,DIRECT
