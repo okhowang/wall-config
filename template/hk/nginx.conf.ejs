@@ -1,0 +1,75 @@
+user  nginx;
+worker_processes  1;
+
+error_log  /var/log/nginx/error.log warn;
+pid        /var/run/nginx.pid;
+
+
+events {
+    worker_connections  1024;
+}
+
+stream {
+    upstream hk_chacha_tcp {
+        server <%-config.jpHost%>:8388;
+    }
+    upstream hk_aes_tcp {
+        server <%-config.jpHost%>:8389;
+    }
+    upstream hk_chacha_local_tcp {
+        server 127.0.0.1:8388;
+    }
+    upstream hk_aes_local_tcp {
+        server 127.0.0.1:8389;
+    }
+    server {
+        #normal
+        listen 12345;
+        listen 12345 udp;
+        listen [::]:12345;
+        listen [::]:12345 udp;
+        #rui
+        listen 12347;
+        listen 12347 udp;
+        listen [::]:12347;
+        listen [::]:12347 udp;
+        #h
+<%-_.range(config.chachaPortRange[0], config.chachaPortRange[1] + 1).map(port => `        listen ${port};
+        listen ${port} udp;
+        listen [::]:${port};
+        listen [::]:${port} udp;`).join("\n")%>
+        proxy_pass hk_chacha_tcp;
+    }
+    server {
+        #normal
+        listen 10000;
+        listen 10000 udp;
+        listen [::]:10000;
+        listen [::]:10000 udp;
+        #rui
+        listen 10001;
+        listen 10001 udp;
+        listen [::]:10001;
+        listen [::]:10001 udp;
+        #h
+<%-_.range(config.aesPortRange[0], config.aesPortRange[1] + 1).map(port => `        listen ${port};
+        listen ${port} udp;
+        listen [::]:${port};
+        listen [::]:${port} udp;`).join("\n")%>
+        proxy_pass hk_aes_tcp;
+    }
+    server {
+<%-_.range(config.chachaHKPortRange[0], config.chachaHKPortRange[1] + 1).map(port => `        listen ${port};
+        listen ${port} udp;
+        listen [::]:${port};
+        listen [::]:${port} udp;`).join("\n")%>
+        proxy_pass hk_chacha_local_tcp;
+    }
+    server {
+<%-_.range(config.aesHKPortRange[0], config.aesHKPortRange[1] + 1).map(port => `        listen ${port};
+        listen ${port} udp;
+        listen [::]:${port};
+        listen [::]:${port} udp;`).join("\n")%>
+        proxy_pass hk_aes_local_tcp;
+    }
+}

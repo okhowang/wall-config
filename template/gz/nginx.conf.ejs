@@ -18,18 +18,16 @@ stream {
     }
     server {
         listen 8388;
-        proxy_pass hk_chacha_tcp;
-    }
-    server {
+        listen [::]:8388;
         listen 8388 udp;
+        listen [::]:8388 udp;
         proxy_pass hk_chacha_tcp;
     }
     server {
         listen 8389;
-        proxy_pass hk_aes_tcp;
-    }
-    server {
+        listen [::]:8389;
         listen 8389 udp;
+        listen [::]:8389 udp;
         proxy_pass hk_aes_tcp;
     }
 }

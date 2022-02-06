@@ -3,10 +3,6 @@ services:
     nginx:
         image: nginx
         restart: always
-        ports:
-        - "8388:8388/tcp"
-        - "8388:8388/udp"
-        - "8389:8389/tcp"
-        - "8389:8389/udp"
         volumes:
         - ./nginx.conf:/etc/nginx/nginx.conf
+        network_mode: "host"

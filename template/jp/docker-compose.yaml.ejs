@@ -1,20 +1,36 @@
 version: "2.4"
 services:
+    shadowsocks-6:
+        image: shadowsocks/shadowsocks-libev
+        restart: always
+        network_mode: "host"
+        environment:
+            SERVER_ADDR: "::"
+            SERVER_PORT: 8388
+            PASSWORD: <%-config.chachaPassword%>
+            METHOD: xchacha20-ietf-poly1305
+    shadowsocks2-6:
+        image: shadowsocks/shadowsocks-libev
+        restart: always
+        network_mode: "host"
+        environment:
+            SERVER_ADDR: "::"
+            SERVER_PORT: 8389
+            PASSWORD: <%-config.aesPassword%>
+            METHOD: aes-256-gcm
     shadowsocks:
         image: shadowsocks/shadowsocks-libev
         restart: always
-        ports:
-        - "8388:8388/tcp"
-        - "8388:8388/udp"
+        network_mode: "host"
         environment:
+            SERVER_PORT: 8388
             PASSWORD: <%-config.chachaPassword%>
             METHOD: xchacha20-ietf-poly1305
     shadowsocks2:
         image: shadowsocks/shadowsocks-libev
         restart: always
-        ports:
-        - "8389:8388/tcp"
-        - "8389:8388/udp"
+        network_mode: "host"
         environment:
+            SERVER_PORT: 8389
             PASSWORD: <%-config.aesPassword%>
             METHOD: aes-256-gcm
