@@ -110,6 +110,14 @@ proxy-groups:
   - ProxyHK-chacha-local
   - ProxyHK-aes-local
   - ProxyJP
+- name: ProxyForceJP
+  type: select
+  proxies:
+  - ProxyHK
+  - ProxyGZ
+  - ProxyHK-chacha
+  - ProxyHK-aes
+  - ProxyJP
 - name: ProxyGZ
   type: url-test
   url: http://www.gstatic.com/generate_204
@@ -171,20 +179,99 @@ proxy-groups:
     - Shadowsocks-chacha-hk-local-<%-i%>-<%-j%>
 <% } -%>
 <% } -%>
-`rules:
+rules:
 - IP-CIDR,10.0.0.0/8,DIRECT
 - IP-CIDR,172.16.0.0/12,DIRECT
 - IP-CIDR,192.168.0.0/16,DIRECT
 - IP-CIDR,127.0.0.0/8,DIRECT
-- IP-CIDR,9.0.0.0/8,DIRECT
-- IP-CIDR,11.0.0.0/8,DIRECT
-- IP-CIDR,30.0.0.0/8,DIRECT
 - IP-CIDR,100.64.0.0/10,DIRECT
-- DOMAIN-SUFFIX,tencent.com,DIRECT
-- DOMAIN-SUFFIX,oa.com,DIRECT
-- DOMAIN-SUFFIX,server.com,DIRECT
-- DOMAIN-SUFFIX,isd.com,DIRECT
-- DOMAIN-SUFFIX,wsd.com,DIRECT
-- DOMAIN-SUFFIX,ied.com,DIRECT
+<% for (var i = 0; i < config.externalDirectCidrs.length; i++) { -%>
+- IP-CIDR,<%-config.externalDirectCidrs[i]%>,DIRECT
+<% } -%>
+<% for (var i = 0; i < config.cnDomains.length; i++) { -%>
+- DOMAIN-SUFFIX,<%-config.cnDomains[i]%>,DIRECT
+<% } -%>
+<% for (var i = 0; i < config.jpDomains.length; i++) { -%>
+- DOMAIN-SUFFIX,<%-config.jpDomains[i]%>,ProxyForceJP
+<% } -%>
 - GEOIP,CN,DIRECT
+- GEOIP,JP,DIRECT
 - MATCH,Proxy
+dns:
+  enable: true
+  ipv6: false
+  # listen: 0.0.0.0:53
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  fake-ip-filter:
+    - "*.lan"
+    - "*.local"
+    - "dns.msftncsi.com"
+    - "www.msftncsi.com"
+    - "www.msftconnecttest.com"
+    - "stun.*.*.*"
+    - "stun.*.*"
+    - miwifi.com
+    - music.163.com
+    - "*.music.163.com"
+    - "*.126.net"
+    - api-jooxtt.sanook.com
+    - api.joox.com
+    - joox.com
+    - y.qq.com
+    - "*.y.qq.com"
+    - streamoc.music.tc.qq.com
+    - mobileoc.music.tc.qq.com
+    - isure.stream.qqmusic.qq.com
+    - dl.stream.qqmusic.qq.com
+    - aqqmusic.tc.qq.com
+    - amobile.music.tc.qq.com
+    - "*.xiami.com"
+    - "*.music.migu.cn"
+    - music.migu.cn
+    - netis.cc
+    - router.asus.com
+    - repeater.asus.com
+    - routerlogin.com
+    - routerlogin.net
+    - tendawifi.com
+    - tendawifi.net
+    - tplinklogin.net
+    - tplinkwifi.net
+    - tplinkrepeater.net
+    - "*.ntp.org.cn"
+    - "*.openwrt.pool.ntp.org"
+    - "*.msftconnecttest.com"
+    - "*.msftncsi.com"
+    - localhost.ptlogin2.qq.com
+    - "*.*.*.srv.nintendo.net"
+    - "*.*.stun.playstation.net"
+    - "xbox.*.*.microsoft.com"
+    - "*.ipv6.microsoft.com"
+    - "*.*.xboxlive.com"
+    - speedtest.cros.wr.pvp.net
+  default-nameserver:
+    - 119.29.29.29
+    - 223.5.5.5
+  nameserver:
+    - https://doh.pub/dns-query
+    - https://dns.alidns.com/dns-query
+  fallback:
+    - https://dns.google/dns-query
+    - https://1.1.1.1/dns-query
+  fallback-filter:
+    geoip: true
+    ipcidr:
+      - 240.0.0.0/4
+      - 127.0.0.1/8
+      - 0.0.0.0/32
+    domain:
+      - +.google.com
+      - +.facebook.com
+      - +.twitter.com
+      - +.youtube.com
+      - +.xn--ngstr-lra8j.com
+      - +.google.cn
+      - +.googleapis.cn
+      - +.googleapis.com
+      - +.gvt1.com
