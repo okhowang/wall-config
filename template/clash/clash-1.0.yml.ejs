@@ -6,6 +6,7 @@ mode: Rule
 log-level: info
 external-controller: 127.0.0.1:9090
 secret: ""
+ipv6: true
 cfw-bypass:
 - localhost
 - 127.*
@@ -195,11 +196,4 @@ rules:
 - DOMAIN-SUFFIX,<%-config.jpDomains[i]%>,ProxyForceJP
 <% } -%>
 - GEOIP,CN,DIRECT
-- GEOIP,JP,DIRECT
 - MATCH,Proxy
-dns:
-  enable: true
-  ipv6: true
-  nameserver:
-    - 119.29.29.29
-    - https://doh.pub/dns-query
