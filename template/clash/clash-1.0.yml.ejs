@@ -29,7 +29,7 @@ cfw-bypass:
 - 172.31.*
 - 192.168.*
 - <local>
-cfw-latency-timeout: 3000
+cfw-latency-timeout: 6000
 cfw-latency-url: http://www.gstatic.com/generate_204
 cfw-conn-break-strategy:
     proxy: none
@@ -120,30 +120,34 @@ proxy-groups:
   - ProxyHK-aes
   - ProxyJP
 - name: ProxyGZ
-  type: url-test
+  type: load-balance
+  strategy: round-robin
   url: http://www.gstatic.com/generate_204
-  interval: 300
+  interval: 600
   proxies:
   - Shadowsocks-aes-gz
   - Shadowsocks-chacha-gz
 - name: ProxyJP
-  type: url-test
+  type: load-balance
+  strategy: round-robin
   url: http://www.gstatic.com/generate_204
-  interval: 300
+  interval: 600
   proxies:
     - Shadowsocks-aes-jp
     - Shadowsocks-chacha-jp
 - name: ProxyHK
-  type: url-test
+  type: load-balance
+  strategy: round-robin
   url: http://www.gstatic.com/generate_204
-  interval: 300
+  interval: 600
   proxies:
   - ProxyHK-aes
   - ProxyHK-chacha
 - name: ProxyHK-aes
-  type: url-test
+  type: load-balance
+  strategy: round-robin
   url: http://www.gstatic.com/generate_204
-  interval: 300
+  interval: 600
   proxies:
 <% for (var i = 0; i < config.hkHost.length; i++) {-%>
 <% for (var j = config.aesPortRange[0]; j <= config.aesPortRange[1]; j++) { -%>
@@ -151,9 +155,10 @@ proxy-groups:
 <% } -%>
 <% } -%>
 - name: ProxyHK-aes-local
-  type: url-test
+  type: load-balance
+  strategy: round-robin
   url: http://www.gstatic.com/generate_204
-  interval: 300
+  interval: 600
   proxies:
 <% for (var i = 0; i < config.hkHost.length; i++) {-%>
 <% for (var j = config.aesHKPortRange[0]; j <= config.aesHKPortRange[1]; j++) { -%>
@@ -161,9 +166,10 @@ proxy-groups:
 <% } -%>
 <% } -%>
 - name: ProxyHK-chacha
-  type: url-test
+  type: load-balance
+  strategy: round-robin
   url: http://www.gstatic.com/generate_204
-  interval: 300
+  interval: 600
   proxies:
 <% for (var i = 0; i < config.hkHost.length; i++) {-%>
 <% for (var j = config.chachaPortRange[0]; j <= config.chachaPortRange[1]; j++) { -%>
@@ -171,9 +177,10 @@ proxy-groups:
 <% } -%>
 <% } -%>
 - name: ProxyHK-chacha-local
-  type: url-test
+  type: load-balance
+  strategy: round-robin
   url: http://www.gstatic.com/generate_204
-  interval: 300
+  interval: 600
   proxies:
 <% for (var i = 0; i < config.hkHost.length; i++) {-%>
 <% for (var j = config.chachaHKPortRange[0]; j <= config.chachaHKPortRange[1]; j++) { -%>
