@@ -188,6 +188,15 @@ proxy-groups:
 <% } -%>
 <% } -%>
 rules:
+<% for (var i = 0; i < config.ncnDomains.length; i++) { -%>
+- DOMAIN-SUFFIX,<%-config.ncnDomains[i]%>,ProxyForceJP
+<% } -%>
+<% for (var i = 0; i < config.cnDomains.length; i++) { -%>
+- DOMAIN-SUFFIX,<%-config.cnDomains[i]%>,DIRECT
+<% } -%>
+<% for (var i = 0; i < config.jpDomains.length; i++) { -%>
+- DOMAIN-SUFFIX,<%-config.jpDomains[i]%>,ProxyForceJP
+<% } -%>
 - IP-CIDR,10.0.0.0/8,DIRECT
 - IP-CIDR,172.16.0.0/12,DIRECT
 - IP-CIDR,192.168.0.0/16,DIRECT
@@ -195,12 +204,6 @@ rules:
 - IP-CIDR,100.64.0.0/10,DIRECT
 <% for (var i = 0; i < config.externalDirectCidrs.length; i++) { -%>
 - IP-CIDR,<%-config.externalDirectCidrs[i]%>,DIRECT
-<% } -%>
-<% for (var i = 0; i < config.cnDomains.length; i++) { -%>
-- DOMAIN-SUFFIX,<%-config.cnDomains[i]%>,DIRECT
-<% } -%>
-<% for (var i = 0; i < config.jpDomains.length; i++) { -%>
-- DOMAIN-SUFFIX,<%-config.jpDomains[i]%>,ProxyForceJP
 <% } -%>
 - GEOIP,CN,DIRECT
 - MATCH,Proxy
