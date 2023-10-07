@@ -189,7 +189,7 @@ proxy-groups:
 <% } -%>
 rules:
 <% for (var i = 0; i < config.ncnDomains.length; i++) { -%>
-- DOMAIN-SUFFIX,<%-config.ncnDomains[i]%>,ProxyForceJP
+- DOMAIN-SUFFIX,<%-config.ncnDomains[i]%>,Proxy
 <% } -%>
 <% for (var i = 0; i < config.cnDomains.length; i++) { -%>
 - DOMAIN-SUFFIX,<%-config.cnDomains[i]%>,DIRECT
