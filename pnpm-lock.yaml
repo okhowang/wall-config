@@ -10,8 +10,8 @@ overrides:
 
 dependencies:
   ejs:
-    specifier: ^3.1.7
-    version: 3.1.7
+    specifier: ^3.1.10
+    version: 3.1.10
   ejs-lint:
     specifier: ^1.2.1
     version: 1.2.1
@@ -237,7 +237,7 @@ packages:
     hasBin: true
     dependencies:
       chalk: 4.1.2
-      ejs: 3.1.7
+      ejs: 3.1.10
       ejs-include-regex: 1.0.0
       globby: 11.0.4
       read-input: 0.3.1
@@ -246,8 +246,8 @@ packages:
       yargs: 16.2.0
     dev: false
 
-  /ejs@3.1.7:
-    resolution: {integrity: sha512-BIar7R6abbUxDA3bfXrO4DSgwo8I+fB5/1zgujl3HLLjwd6+9iOnrT+t3grn2qbk9vOgBubXOFwX2m9axoFaGw==}
+  /ejs@3.1.10:
+    resolution: {integrity: sha512-UeJmFfOrAQS8OJWPZ4qtgHyWExa088/MtK5UEyoJGFH67cDEXkZSviOiKRCZ4Xij0zxI3JECgYs3oKx+AizQBA==}
     engines: {node: '>=0.10.0'}
     hasBin: true
     dependencies:
