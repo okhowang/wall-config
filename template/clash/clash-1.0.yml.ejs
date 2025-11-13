@@ -120,34 +120,22 @@ proxy-groups:
   - ProxyHK-aes
   - ProxyJP
 - name: ProxyGZ
-  type: load-balance
-  strategy: round-robin
-  url: http://www.gstatic.com/generate_204
-  interval: 600
+  type: fallback
   proxies:
   - Shadowsocks-aes-gz
   - Shadowsocks-chacha-gz
 - name: ProxyJP
-  type: load-balance
-  strategy: round-robin
-  url: http://www.gstatic.com/generate_204
-  interval: 600
+  type: fallback
   proxies:
     - Shadowsocks-aes-jp
     - Shadowsocks-chacha-jp
 - name: ProxyHK
-  type: load-balance
-  strategy: round-robin
-  url: http://www.gstatic.com/generate_204
-  interval: 600
+  type: fallback
   proxies:
   - ProxyHK-aes
   - ProxyHK-chacha
 - name: ProxyHK-aes
-  type: load-balance
-  strategy: round-robin
-  url: http://www.gstatic.com/generate_204
-  interval: 600
+  type: fallback
   proxies:
 <% for (var i = 0; i < config.hkHost.length; i++) {-%>
 <% for (var j = config.aesPortRange[0]; j <= config.aesPortRange[1]; j++) { -%>
@@ -155,10 +143,7 @@ proxy-groups:
 <% } -%>
 <% } -%>
 - name: ProxyHK-aes-local
-  type: load-balance
-  strategy: round-robin
-  url: http://www.gstatic.com/generate_204
-  interval: 600
+  type: fallback
   proxies:
 <% for (var i = 0; i < config.hkHost.length; i++) {-%>
 <% for (var j = config.aesHKPortRange[0]; j <= config.aesHKPortRange[1]; j++) { -%>
@@ -166,10 +151,7 @@ proxy-groups:
 <% } -%>
 <% } -%>
 - name: ProxyHK-chacha
-  type: load-balance
-  strategy: round-robin
-  url: http://www.gstatic.com/generate_204
-  interval: 600
+  type: fallback
   proxies:
 <% for (var i = 0; i < config.hkHost.length; i++) {-%>
 <% for (var j = config.chachaPortRange[0]; j <= config.chachaPortRange[1]; j++) { -%>
@@ -177,10 +159,7 @@ proxy-groups:
 <% } -%>
 <% } -%>
 - name: ProxyHK-chacha-local
-  type: load-balance
-  strategy: round-robin
-  url: http://www.gstatic.com/generate_204
-  interval: 600
+  type: fallback
   proxies:
 <% for (var i = 0; i < config.hkHost.length; i++) {-%>
 <% for (var j = config.chachaHKPortRange[0]; j <= config.chachaHKPortRange[1]; j++) { -%>
