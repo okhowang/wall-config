@@ -120,49 +120,56 @@ proxy-groups:
   - ProxyHK-aes
   - ProxyJP
 - name: ProxyGZ
-  type: fallback
+  type: url-test
+  interval: 0
   proxies:
   - Shadowsocks-aes-gz
   - Shadowsocks-chacha-gz
 - name: ProxyJP
-  type: fallback
+  type: url-test
+  interval: 0
   proxies:
     - Shadowsocks-aes-jp
     - Shadowsocks-chacha-jp
 - name: ProxyHK
-  type: fallback
+  type: url-test
+  interval: 0
   proxies:
   - ProxyHK-aes
   - ProxyHK-chacha
 - name: ProxyHK-aes
-  type: fallback
+  type: url-test
+  interval: 0
   proxies:
-<% for (var i = 0; i < config.hkHost.length; i++) {-%>
 <% for (var j = config.aesPortRange[0]; j <= config.aesPortRange[1]; j++) { -%>
+<% for (var i = 0; i < config.hkHost.length; i++) {-%>
   - Shadowsocks-aes-hk<%-i%>-<%-j%>
 <% } -%>
 <% } -%>
 - name: ProxyHK-aes-local
-  type: fallback
+  type: url-test
+  interval: 0
   proxies:
-<% for (var i = 0; i < config.hkHost.length; i++) {-%>
 <% for (var j = config.aesHKPortRange[0]; j <= config.aesHKPortRange[1]; j++) { -%>
+<% for (var i = 0; i < config.hkHost.length; i++) {-%>
     - Shadowsocks-aes-hk-local-<%-i%>-<%-j%>
 <% } -%>
 <% } -%>
 - name: ProxyHK-chacha
-  type: fallback
+  type: url-test
+  interval: 0
   proxies:
-<% for (var i = 0; i < config.hkHost.length; i++) {-%>
 <% for (var j = config.chachaPortRange[0]; j <= config.chachaPortRange[1]; j++) { -%>
+<% for (var i = 0; i < config.hkHost.length; i++) {-%>
   - Shadowsocks-chacha-hk<%-i%>-<%-j%>
 <% } -%>
 <% } -%>
 - name: ProxyHK-chacha-local
-  type: fallback
+  type: url-test
+  interval: 0
   proxies:
-<% for (var i = 0; i < config.hkHost.length; i++) {-%>
 <% for (var j = config.chachaHKPortRange[0]; j <= config.chachaHKPortRange[1]; j++) { -%>
+<% for (var i = 0; i < config.hkHost.length; i++) {-%>
     - Shadowsocks-chacha-hk-local-<%-i%>-<%-j%>
 <% } -%>
 <% } -%>
